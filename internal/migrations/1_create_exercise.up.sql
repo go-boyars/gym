@@ -1,0 +1,1 @@
+create table exercise(id serial primary key, name text not null, muscule text not null);
