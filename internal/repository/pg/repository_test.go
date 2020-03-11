@@ -10,7 +10,7 @@ import (
 
 func TestCheckConnection(t *testing.T) {
 	assert := assert.New(t)
-	conn, err := pgx.Connect(context.Background(), "postgresql://postgres:password@localhost:5432/gym")
+	conn, err := pgx.Connect(context.Background(), "postgresql://boyar:go-boyars@localhost:5432/gym")
 	assert.NoError(err)
 	_ = conn
 }
