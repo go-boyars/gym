@@ -1,7 +1,5 @@
 FROM postgres:12.2
 
-# RUN ["bin/bash", "-c", "createdb -U postgres gym"]
-# COPY internal/migrations/1_create_exercise.up.sql /docker-entrypoint-initdb.d/ 
-
-
-
+ENV POSTGRES_USER boyar
+ENV POSTGRES_PASSWORD go-boyars
+ENV POSTGRES_DB gym
