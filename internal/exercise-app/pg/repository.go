@@ -4,19 +4,19 @@ import (
 	"context"
 
 	"github.com/go-boyars/gym/internal/exercise-app"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Repository struct {
-	conn *pgx.Conn
+	pool *pgxpool.Pool
 }
 
-func NewPgRepository(conn *pgx.Conn) (*Repository, error) {
-	return &Repository{conn: conn}, nil
+func NewPgRepository(pool *pgxpool.Pool) (*Repository, error) {
+	return &Repository{pool: pool}, nil
 }
 
 func (r Repository) GetExercises() ([]*exercise.Exercise, error) {
-	rows, err := r.conn.Query(context.Background(), "select name, muscule from exercise")
+	rows, err := r.pool.Query(context.Background(), "select name, muscule from exercise")
 	if err != nil {
 		return nil, err
 	}

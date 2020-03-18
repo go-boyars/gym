@@ -4,18 +4,15 @@ import (
 	"context"
 	"testing"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetExercises(t *testing.T) {
 	assert := assert.New(t)
-	conn, err := pgx.Connect(context.Background(), "postgresql://postgres:password@localhost:5432/gym")
+	pool, err := pgxpool.Connect(context.Background(), "postgresql://boyar:go-boyars@localhost:5432/gym")
 	assert.NoError(err)
-	defer conn.Close(context.Background())
-
-	err = conn.Ping(context.Background())
-	assert.NoError(err)
+	defer pool.Close()
 
 	type testExercise struct {
 		name    string
@@ -28,7 +25,7 @@ func TestGetExercises(t *testing.T) {
 	}
 
 	// 1. populate db with exercises (3)
-	_, err = conn.Exec(
+	_, err = pool.Exec(
 		context.Background(),
 		"insert into exercise (name, muscule) values ($1, $2),($3, $4),($5, $6)",
 		expExercises[0].name,
@@ -39,12 +36,9 @@ func TestGetExercises(t *testing.T) {
 		expExercises[2].muscule,
 	)
 	assert.NoError(err)
-	conn.Close(context.Background())
-	conn, err = pgx.Connect(context.Background(), "postgresql://postgres:password@localhost:5432/gym")
-	assert.NoError(err)
 
 	// 2. call GetExercises
-	r, err := NewPgRepository(conn)
+	r, err := NewPgRepository(pool)
 	assert.NoError(err)
 	exercises, err := r.GetExercises()
 	assert.NoError(err)
@@ -62,11 +56,9 @@ func TestGetExercises(t *testing.T) {
 		}
 	}
 	assert.Equal(len(expExercises), flag, "Inconsistancy in db is found")
-	conn, err = pgx.Connect(context.Background(), "postgresql://postgres:password@localhost:5432/gym")
-	assert.NoError(err)
 
 	// 4. delete from exercises
-	_, err = conn.Exec(
+	_, err = pool.Exec(
 		context.Background(),
 		"delete from exercise",
 	)
