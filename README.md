@@ -1,6 +1,11 @@
 # Start postgres
 
 ```
-docker build .
-docker run -p 5432:5432 ${image_id}
+make build
+make start
+```
+# Run migrations
+
+```
+make migrate
 ```
