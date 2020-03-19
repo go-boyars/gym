@@ -1,7 +1,7 @@
 package exercise
 
 type Exercise struct {
-	Id      int
+	Id      int64
 	Name    string
 	Muscule string
 }

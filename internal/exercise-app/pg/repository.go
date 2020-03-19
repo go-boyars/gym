@@ -15,7 +15,11 @@ func NewPgRepository(pool *pgxpool.Pool) (*Repository, error) {
 	return &Repository{pool: pool}, nil
 }
 
-func (r Repository) GetExercises() ([]*exercise.Exercise, error) {
+func (r *Repository) CreateExercise(e *exercise.Exercise) (int64, error) {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *Repository) GetExercises() ([]*exercise.Exercise, error) {
 	rows, err := r.pool.Query(context.Background(), "select name, muscule from exercise")
 	if err != nil {
 		return nil, err
@@ -33,4 +37,12 @@ func (r Repository) GetExercises() ([]*exercise.Exercise, error) {
 	}
 
 	return result, nil
+}
+
+func (r *Repository) UpdateExercise(id int64, e *exercise.Exercise) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *Repository) DeleteExercise(id int64) error {
+	panic("not implemented") // TODO: Implement
 }
