@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
-    id varying(1024) PRIMARY KEY,
+    id character varying(1024) PRIMARY KEY,
     login character varying(1024) NOT NULL UNIQUE,
 	first_name character varying(1024) NOT NULL,
 	middle_name character varying(1024) NOT NULL,
