@@ -28,13 +28,15 @@ func (a *App) Router() *mux.Router {
 }
 
 func (a *App) registerHandlers() {
+	a.router.HandleFunc("/login", a.loginHandler).Methods("POST")
 	a.router.HandleFunc("/register", a.registerHandler).Methods("POST")
+
 	a.router.HandleFunc("/exercises", a.getExercises).Methods("GET")
 }
 
 func SetInternalError(response http.ResponseWriter, handleErr error) {
 	response.WriteHeader(http.StatusInternalServerError)
-	_, err := response.Write([]byte(`{"message": ` + handleErr.Error() + `}`))
+	_, err := response.Write([]byte(`{"message": "` + handleErr.Error() + `"}`))
 	if err != nil {
 		// and what? log it
 		_ = err

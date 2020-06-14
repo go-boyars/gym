@@ -57,3 +57,13 @@ func (r Repository) CreateUser(ctx context.Context, user models.User, hash strin
 
 	return nil
 }
+
+func (r Repository) GetPwhash(ctx context.Context, login string) (string, error) {
+	var hash string
+	err := r.pool.QueryRow(ctx, "SELECT pwhash FROM users WHERE login=$1", login).Scan(&hash)
+	if err != nil {
+		return "", err
+	}
+
+	return hash, nil
+}
