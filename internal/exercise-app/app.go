@@ -1,7 +1,6 @@
 package exercise
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -29,24 +28,8 @@ func (a *App) Router() *mux.Router {
 }
 
 func (a *App) registerHandlers() {
+	a.router.HandleFunc("/register", a.registerHandler).Methods("POST")
 	a.router.HandleFunc("/exercises", a.getExercises).Methods("GET")
-}
-
-func (a *App) getExercises(response http.ResponseWriter, request *http.Request) {
-	response.Header().Add("content-type", "application/json")
-
-	// TODO context
-	exercises, err := a.storage.GetExercises()
-	if err != nil {
-		SetInternalError(response, err)
-		return
-	}
-
-	err = json.NewEncoder(response).Encode(exercises)
-	if err != nil {
-		SetInternalError(response, err)
-		return
-	}
 }
 
 func SetInternalError(response http.ResponseWriter, handleErr error) {
