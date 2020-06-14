@@ -2,7 +2,10 @@ package exercise
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/context"
 )
 
 type Exercise struct {
@@ -13,6 +16,9 @@ type Exercise struct {
 
 func (a *App) getExercises(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("content-type", "application/json")
+
+	claims := context.Get(request, "jwt").(CustomJWTClaim)
+	fmt.Println("user id: ", claims.ID)
 
 	// TODO context
 	exercises, err := a.storage.GetExercises()

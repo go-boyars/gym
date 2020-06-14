@@ -8,6 +8,7 @@ import (
 
 type Storage interface {
 	CreateUser(context.Context, models.User, string) error
+	GetUserID(context.Context, string) (string, error)
 	GetPwhash(context.Context, string) (string, error)
 
 	GetExercises() ([]*Exercise, error) // TODO remove pointer

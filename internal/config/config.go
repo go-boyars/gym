@@ -8,9 +8,13 @@ import (
 	"github.com/heetch/confita/backend/file"
 )
 
+var Application string = "go-boyars gym"
+var Secret string
+
 type Config struct {
-	Addr   string `config:"addr"`
-	DBconn string `config:"dbconn"`
+	Addr      string `config:"addr"`
+	DBconn    string `config:"dbconn"`
+	TokenSign string `config:"token_sign"`
 }
 
 func GetConfig(configPath string) *Config {

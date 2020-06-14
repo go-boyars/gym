@@ -67,3 +67,13 @@ func (r Repository) GetPwhash(ctx context.Context, login string) (string, error)
 
 	return hash, nil
 }
+
+func (r Repository) GetUserID(ctx context.Context, login string) (string, error) {
+	var userID string
+	err := r.pool.QueryRow(ctx, "SELECT id FROM users WHERE login=$1", login).Scan(&userID)
+	if err != nil {
+		return "", err
+	}
+
+	return userID, nil
+}

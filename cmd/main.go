@@ -14,6 +14,7 @@ import (
 
 func main() {
 	cfg := config.GetConfig(os.Getenv("CONFIG_PATH"))
+	config.Secret = cfg.TokenSign
 
 	pool, err := pgxpool.Connect(context.Background(), cfg.DBconn)
 	if err != nil {

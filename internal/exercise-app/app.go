@@ -31,7 +31,7 @@ func (a *App) registerHandlers() {
 	a.router.HandleFunc("/login", a.loginHandler).Methods("POST")
 	a.router.HandleFunc("/register", a.registerHandler).Methods("POST")
 
-	a.router.HandleFunc("/exercises", a.getExercises).Methods("GET")
+	a.router.HandleFunc("/exercises", AuthMiddleware(a.getExercises)).Methods("GET")
 }
 
 func SetInternalError(response http.ResponseWriter, handleErr error) {
